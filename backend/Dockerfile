@@ -37,5 +37,7 @@ USER appuser
 CMD ["npm", "start"]
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:5001/health || exit 1
+# HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+#   CMD curl -f http://localhost:5001/health || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD node -e "fetch('http://127.0.0.1:5001/health/').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
